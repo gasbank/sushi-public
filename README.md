@@ -1,37 +1,101 @@
-## Welcome to GitHub Pages
+초밥키우기 야옹뽑기 구슬 생성 규칙
+==========================
 
-You can use the [editor on GitHub](https://github.com/gasbank/sushi-public/edit/main/README.md) to maintain and preview the content for your website in Markdown files.
+- [초밥키우기 야옹뽑기 구슬 생성 규칙](#초밥키우기-야옹뽑기-구슬-생성-규칙)
+- [개요](#개요)
+- [기본 시작 정보](#기본-시작-정보)
+- [구슬 별 보상 수량 결정 방법](#구슬-별-보상-수량-결정-방법)
+  - [에너지 구슬](#에너지-구슬)
+  - [와사비 보석 구슬](#와사비-보석-구슬)
+  - [초밥 구슬](#초밥-구슬)
+  - [야옹뽑기 코인 구슬](#야옹뽑기-코인-구슬)
+  - [야옹뽑기 리셋 코인 구슬](#야옹뽑기-리셋-코인-구슬)
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+# 개요
 
-### Markdown
+초밥키우기 야옹뽑기의 구슬 랜덤 생성의 규칙에 대해서 설명한 문서이다.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
-```markdown
-Syntax highlighted code block
+# 기본 시작 정보
 
-# Header 1
-## Header 2
-### Header 3
+- 뽑기 구슬의 타입
+  1. 에너지 (Energy, E)
+  1. 와사비 보석 (Wasabi gem, W)
+  1. 초밥 (Sushi, S)
+  1. 야옹뽑기 코인 (Lucky draw coin, K)
+  1. 야옹뽑기 리셋 코인 (Lucky draw reset coin, R)
+- 각 뽑기 구슬 타입은 구슬 최대 계수를 가짐
+  1. **M**<sub>Emax</sub> = (에너지 구슬 최대 계수)
+  1. **M**<sub>Wmax</sub> = (와사비 구슬 최대 계수)
+  1. **M**<sub>Smax</sub> = (초밥 구슬 최대 계수)
+  1. **M**<sub>Kmax</sub> = (야옹뽑기 코인 구슬 최대 계수)
+  1. **M**<sub>Rmax</sub> = (야옹뽑기 리셋 코인 구슬 최대 계수)
+- 각 뽑기 구슬 타입의 구슬 계수는 아래와 같이 랜덤으로 결정
+  1. **M**<sub>E</sub> = (에너지 구슬 계수) = (1 ~ **M**<sub>Emax</sub> 범위)
+  1. **M**<sub>W</sub> = (와사비 구슬 계수) = (0 ~ **M**<sub>Wmax</sub> 범위)
+  1. **M**<sub>S</sub> = (초밥 구슬 계수) = (0 ~ **M**<sub>Smax</sub> 범위)
+  1. **M**<sub>K</sub> = (야옹뽑기 코인 구슬 계수) = (0 ~ **M**<sub>Kmax</sub> 범위)
+  1. **M**<sub>R</sub> = (야옹뽑기 리셋 코인 구슬 계수) = (0 ~ **M**<sub>Rmax</sub> 범위)
+- **M**<sub>T</sub> = (모든 구슬 계수의 합) = **M**<sub>E</sub> + **M**<sub>W</sub> + **M**<sub>S</sub> + **M**<sub>K</sub> + **M**<sub>R</sub>
+- **T** = (뽑기 구슬 총 개수) = 40 (개) = **C**<sub>E</sub> + **C**<sub>W</sub> + **C**<sub>S</sub> + **C**<sub>K</sub> + **C**<sub>R</sub>
+  1. **C**<sub>E</sub> = ( **M**<sub>E</sub> / **M**<sub>T</sub> ) × **T**
+  1. **C**<sub>W</sub> = ( **M**<sub>W</sub> / **M**<sub>T</sub> ) × **T**
+  1. **C**<sub>S</sub> = ( **M**<sub>S</sub> / **M**<sub>T</sub> ) × **T**
+  1. **C**<sub>K</sub> = ( **M**<sub>K</sub> / **M**<sub>T</sub> ) × **T**
+  1. **C**<sub>R</sub> = **T** - **C**<sub>E</sub> - **C**<sub>W</sub> - **C**<sub>S</sub> - **C**<sub>K</sub> 
+- **H**<sub>LV</sub> = (플레이어의 최상위 초밥 레벨)
+  - 각 구슬 최대 계수 **M**<sub>*max</sub>는 보상 테이블과 **H**<sub>LV</sub> 에 따라 결정
+  - **H**<sub>LV</sub>가 높아짐에 따라
+    - **M**<sub>Emax</sub> 감소
+    - **M**<sub>Wmax</sub> 증가
+    - **M**<sub>Smax</sub> 증가
+    - **M**<sub>Kmax</sub> 감소 및 **H**<sub>LV</sub>이 63 이상이 되면 0
+    - **M**<sub>Rmax</sub> 감소
 
-- Bulleted
-- List
+# 구슬 별 보상 수량 결정 방법
 
-1. Numbered
-2. List
+## 에너지 구슬
 
-**Bold** and _Italic_ and `Code` text
+- **W**<sub>A</sub> = (현재 도마위에 있는 초밥들이 초당 버는 에너지량) + (도감 업그레이드로 인한 보너스 에너지량)
+- **W**<sub>B</sub> = (**H**<sub>LV</sub> 에 따른 보상 배수) = (**H**<sub>LV</sub> × 2) - 1
+- **W**<sub>C</sub> = (구슬을 모두 뽑는데 걸리는 시간) = (하나의 뽑기 구슬을 뽑는데 걸리는 대략적인 시간) × **T** = 10 (초) × **T** = 400 (초)
+- **W**<sub>D</sub> = (각 구슬에 들어갈 수 있는 최대 에너지 값) = **W**<sub>A</sub> × **W**<sub>B</sub> × **W**<sub>C</sub>
+- 구슬 별 에너지 보상 수량
+  - 총 **C**<sub>E</sub>개의 에너지 구슬을 각각 1번 구슬부터 **C**<sub>E</sub>번 구슬이라 칭하면
+    - (1번 구슬의 에너지) = **W**<sub>D</sub>
+    - (2번 구슬의 에너지) = **W**<sub>D</sub> / 2
+    - (3번 구슬의 에너지) = **W**<sub>D</sub> / 4
+    - (3번 구슬의 에너지) = **W**<sub>D</sub> / 8
+    - ...
+    - (**C**<sub>E</sub>번 구슬의 에너지) = **W**<sub>D</sub> / 2<sup>**C**<sub>E</sub> - 1</sup>
+    - 1, 2번 구슬은 황색 구슬, 3번 이후 구슬은 적색 구슬로 생성
 
-[Link](url) and ![Image](src)
-```
+## 와사비 보석 구슬
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+- **G**<sub>min</sub> = (보상 테이블로 결정된 최소 와사비 보석 보상 수량)
+- **G**<sub>max</sub> = (보상 테이블로 결정된 최대 와사비 보석 보상 수량)
+- 구슬 별 와사비 보석 보상 수량은 **G**<sub>min</sub> ~ **G**<sub>max</sub> 범위에서 랜덤 결정
+- 각 구슬에 결정된 와사비 보석 수량이 **G**<sub>max</sub>의 90%이상 이라면 황색 구슬, 미만이면 적색 구슬로 생성
 
-### Jekyll Themes
+## 초밥 구슬
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/gasbank/sushi-public/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+- **S**<sub>A</sub> = (뽑기 기계의 내용물을 모두 뽑을 시간 **W**<sub>C</sub>초 동안 초밥 생성을 했을 때 총 초밥을 밥풀뭉치로 환산한 값)
+- **S**<sub>B</sub> = (보상 테이블에 따라 결정되는 값으로 최소 1 최대 9)
+- **S**<sub>C</sub> = (**S**<sub>A</sub> × **S**<sub>B</sub>만큼의 밥풀뭉치로 만들어낼수 있는 초밥 중 가장 높은 레벨)
+- 구슬 별 초밥 보상으로 들어 있는 초밥 레벨
+  - 총 **C**<sub>S</sub>개의 초밥 구슬을 각각 1번 구슬부터 **C**<sub>S</sub>번 구슬이라 칭하면
+      - (1번 구슬의 초밥 레벨) = max(1, **S**<sub>C</sub> - 1)
+      - (2번 구슬의 초밥 레벨) = max(1, **S**<sub>C</sub> - 2)
+      - (3번 구슬의 초밥 레벨) = max(1, **S**<sub>C</sub> - 3)
+      - (4번 구슬의 초밥 레벨) = max(1, **S**<sub>C</sub> - 4)
+      - ...
+      - (**C**<sub>S</sub>번 구슬의 초밥 레벨) = max(1, **S**<sub>C</sub> - **C**<sub>S</sub>)
+      - 1, 2번 구슬은 황색 구슬, 3번 이후 구슬은 적색 구슬로 생성
 
-### Support or Contact
+## 야옹뽑기 코인 구슬
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+- 구슬 별 야옹뽑기 코인 보상 수량은 1개 혹은 2개 (반반 확률)
+
+## 야옹뽑기 리셋 코인 구슬
+
+- 구슬 별 야옹뽑기 리셋 코인 보상 수량은 1개
